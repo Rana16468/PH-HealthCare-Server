@@ -1,7 +1,9 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import { UserRoutes } from './app/modules/Users/User.routes';
-import { AdminRouter } from './app/modules/Admin/Admin.routes';
+import router from './app/routes';
+import golobalErrorHnadelar from './app/middleWeres/golobalErrorHnadelar';
+import notFounded from './app/middleWeres/notFounded';
+
 
 
 const app:Application=express();
@@ -18,7 +20,9 @@ app.get('/',(req:Request,res:Response)=>{
 
 });
 
-app.use('/api/v1/user',UserRoutes);
-app.use('/api/v1/admin',AdminRouter);
+app.use('/api/v1',router);
+app.use(golobalErrorHnadelar);
+app.use("*",notFounded);
+
 
 export default app;
