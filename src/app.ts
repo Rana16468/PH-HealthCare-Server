@@ -3,12 +3,14 @@ import cors from 'cors';
 import router from './app/routes';
 import golobalErrorHnadelar from './app/middleWeres/golobalErrorHnadelar';
 import notFounded from './app/middleWeres/notFounded';
-
+import cookieParser  from 'cookie-parser';
 
 
 const app:Application=express();
 
 app.use(cors());
+//https://www.npmjs.com/package/cookie-parser
+app.use(cookieParser())
 // parser
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
