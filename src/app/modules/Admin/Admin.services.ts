@@ -7,8 +7,7 @@ import { IPaginationOptions } from "../../Interfaces/pagination";
 
 const getAllFromDb=async(params:IAdminFilterRequest,option:IPaginationOptions)=>{
 
-    console.log(params);
-    console.log(option);
+  
 
     const {searchTerm,...filterData}=params
 
