@@ -138,8 +138,8 @@ const resetPassword=async(token:string,payload:{id:string,password:string})=>{
 
         },
         data:{
- password:hashedPassword,
- needPasswordChange:false
+            password:hashedPassword,
+            needPasswordChange:false
         }
     })
     

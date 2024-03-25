@@ -23,6 +23,9 @@ model User{
   createdAt DateTime @default(now())
   updatedAt  DateTime @updatedAt
   admin Admin? // one to one relation ships to User Table
+  doctor Doctor?  // one to one relation ships to Doctor Table
+  patient Patient? // onet to one  relation ships to Patient table
+
   @@map("users")
 }
 
@@ -40,6 +43,47 @@ model Admin {
   @@map("admins")
 }
 
+model Doctor {
+
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  profilePhoto String?
+  contractNumber String
+  address String?
+  registrationNumber String
+  experience Int @default(0)
+  gender Gender
+  appointmentFee Int
+  qualification String
+  currentWorkingPlease String
+  designation String
+  isDeleted Boolean @default(false)
+  averageRating Float @default(0)
+  createdAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user User @relation(fields:[email],references: [email])  // one to one relation ships to User Table
+  @@map("doctors")
+
+}
+
+model Patient {
+
+ id String @id @default(uuid())
+  name String
+  email String @unique
+  profilePhoto String?
+  contractNumber String
+  gender Gender
+  address String?
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user User @relation(fields:[email],references: [email])  //  onet to one  relation ships user  table
+
+
+}
+
 enum UserRole {
   SUPER_ADMIN
   ADMIN
@@ -54,4 +98,9 @@ enum  UserStatus {
   BLOCKED
   DELETED
 
+}
+
+enum Gender {
+ MALE
+ FEMALE
 }
