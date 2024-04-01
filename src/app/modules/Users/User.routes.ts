@@ -12,6 +12,8 @@ const router=express.Router();
 
 router.get("/",auth(UserRole.SUPER_ADMIN,UserRole.ADMIN),UserController.getAll);
 
+router.get('/me',auth(UserRole.ADMIN,UserRole.ADMIN,UserRole.PATIENT,UserRole.SUPER_ADMIN),UserController.getMyProfile);
+
 router.post('/create-admin',auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),upload.single('file'),(req:Request,res:Response,next:NextFunction)=>{
     req.body=JSON.parse(req.body.data)
     next();
@@ -32,7 +34,16 @@ router.post('/create-patient',upload.single('file'),(req:Request,res:Response,ne
     next();
 },validateRequest(userValidation.createPatientValidation),UserController.createPatient);
 
+
+
 router.patch("/:id/status",validateRequest(userValidation.chnageProfileStatusValidation),auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),UserController.chnageProfileStatus);
+router.patch("/update-my-profile",
+auth(UserRole.ADMIN,UserRole.SUPER_ADMIN,UserRole.DOCTOR,UserRole.PATIENT),
+upload.single('file'),(req:Request,res:Response,next:NextFunction)=>{
+      
+    req.body=JSON.parse(req.body.data)
+    next();
+},validateRequest(userValidation.updateUserProfileValidation),UserController.updateMyProfile)
 
 
 export  const UserRoutes=router;

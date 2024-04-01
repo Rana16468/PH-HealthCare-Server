@@ -63,6 +63,8 @@ model Doctor {
   createdAt DateTime @default(now())
   updatedAt  DateTime @updatedAt
   user User @relation(fields:[email],references: [email])  // one to one relation ships to User Table
+  doctorSpecialties DoctorSpecialties[] // many to many Relation Ship into DoctorSpecialties
+
   @@map("doctors")
 
 }
@@ -80,9 +82,30 @@ model Patient {
   createdAt DateTime @default(now())
   updatedAt  DateTime @updatedAt
   user User @relation(fields:[email],references: [email])  //  onet to one  relation ships user  table
-
+  
 
 }
+
+model Specialties {
+  id                String              @id @default(uuid())
+  title             String
+  icon              String
+  doctorSpecialties DoctorSpecialties[] // many to many Relation Ship into DoctorSpecialties
+
+  @@map("specialties")
+}
+
+model DoctorSpecialties {
+
+   specialitiesId String
+   specialties Specialties @relation(fields: [specialitiesId],references: [id]) // many to many Relation Ship into Doctor Table
+   doctorId  String
+   doctor   Doctor @relation(fields: [doctorId], references: [id])  // many to many Relation Ship into Specialtie Table
+   @@id([specialitiesId,doctorId])
+    @@map("doctor_specialties")
+
+}
+
 
 enum UserRole {
   SUPER_ADMIN

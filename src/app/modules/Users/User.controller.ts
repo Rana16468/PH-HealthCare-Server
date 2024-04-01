@@ -67,10 +67,27 @@ const getAll:RequestHandler=catchAsync(async(req,res)=>{
 
   });
 
+  const  getMyProfile:RequestHandler=catchAsync(async(req,res)=>{
+
+   const user=req.user;
+
+    const result=await UserService.getMyProfileIntoDb(user);
+    sendRespone(res,{status:httpStatus.OK,success:true,message:"Get My Profile Successfully",data:result});
+  });
+
+  const updateMyProfile:RequestHandler=catchAsync(async(req,res)=>{
+
+    const result=await UserService.updateMyProfileIntoDb(req.user,req);
+    sendRespone(res,{success:true,status:httpStatus.OK,message:"Update My Profile Successfully",data:result});
+  })
+
+
 export const  UserController={
     createAdmin,
     createDoctor,
     getAll,
     chnageProfileStatus,
-    createPatient
+    createPatient,
+    getMyProfile,
+    updateMyProfile
 }

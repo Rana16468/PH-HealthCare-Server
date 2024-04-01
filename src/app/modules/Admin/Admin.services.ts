@@ -14,6 +14,8 @@ const getAllFromDb=async(params:IAdminFilterRequest,option:IPaginationOptions)=>
 const {limit,page,sortBy,orderBy,skip}=calculatePagination(option);
 
 
+console.log(filterData);
+
 
 
    
