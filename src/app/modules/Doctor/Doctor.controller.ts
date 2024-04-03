@@ -11,6 +11,7 @@ import { doctorFilterableFields } from "./Doctor.constant";
 const   getAllDoctor:RequestHandler=catchAsync(async(req,res)=>{
     const filter= pick(req.query, doctorFilterableFields);
     
+   
     const option=pick(req.query,['page','limit','sortBy','orderBy']);
     
     // console.log(option);

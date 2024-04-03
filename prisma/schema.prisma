@@ -64,6 +64,7 @@ model Doctor {
   updatedAt  DateTime @updatedAt
   user User @relation(fields:[email],references: [email])  // one to one relation ships to User Table
   doctorSpecialties DoctorSpecialties[] // many to many Relation Ship into DoctorSpecialties
+  doctor  DoctorSchedules[] // one to many relation Ship to DoctorScheduleTable
 
   @@map("doctors")
 
@@ -82,7 +83,8 @@ model Patient {
   createdAt DateTime @default(now())
   updatedAt  DateTime @updatedAt
   user User @relation(fields:[email],references: [email])  //  onet to one  relation ships user  table
-  
+  patientHealthData PatientHealthData?
+  medicalRepor MedicalRepor[]
 
 }
 
@@ -106,6 +108,68 @@ model DoctorSpecialties {
 
 }
 
+model PatientHealthData {
+ id                String              @id @default(uuid())
+ patientId   String @unique
+ patient Patient @relation(fields: [patientId],references: [id])
+ dateOfBirth String
+ gender Gender
+ bloodGroup BloodGroup
+ hasAllergies Boolean? @default(false)
+hasDiabetes Boolean? @default(false)
+height  String
+weight  String
+smokingStatus Boolean? @default(false)
+dietaryPreferences String?
+pregnancyStatus Boolean? @default(false)
+mentalHealthHistory String?
+immunizationStatus String?
+hasPastSurgeries Boolean? @default(false)
+recentAnxiety Boolean? @default(false)
+recentDepression Boolean? @default(false)
+maritalStatus MaritalStatus @default(UNMARRIED)
+createdAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  @@map("patient_health_datas")
+
+}
+
+model MedicalRepor {
+ id                String              @id @default(uuid())
+ patientId String
+ patient Patient @relation(fields: [patientId], references: [id])
+ reportName String
+ reportLink String
+ createdAt DateTime @default(now())
+ updatedAt  DateTime @updatedAt
+@@map("medical_repor")
+
+}
+
+model Schedule {
+ id                String              @id @default(uuid())
+ startDateTime DateTime
+ endDateTime DateTime
+ createdAt DateTime @default(now())
+ updatedAt  DateTime @updatedAt
+ doctorSchedules DoctorSchedules[] // one to many realtion ship Doctor Schedule Table
+ @@map("schedules")
+
+}
+
+model DoctorSchedules {
+
+  doctorId String
+  doctor Doctor @relation(fields: [doctorId],references: [id]) // one to many realtion ship doctor table
+  scheduleId String
+  schedule Schedule @relation(fields: [scheduleId],references: [id]) // one to many relation ship into Schedule Table
+  isBooked Boolean @default(false)
+  appointmentId String ?
+  @@id([doctorId,scheduleId])
+  @@map("doctor_schedules")
+}
+
+
 
 enum UserRole {
   SUPER_ADMIN
@@ -127,3 +191,21 @@ enum Gender {
  MALE
  FEMALE
 }
+
+enum BloodGroup {
+
+A_POSITIVE
+B_POSITIVE
+O_POSITIVE
+AB_POSITIVE
+A_NEGATIVE
+B_NEGATIVE
+O_NEGATIVE
+AB_NEGATIVE
+}
+enum MaritalStatus {
+
+  MARRIED
+UNMARRIED
+}
+

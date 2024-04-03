@@ -14,6 +14,8 @@ const  getAllDoctorFromDB=async(filters: IDoctorFilterRequest,options: IPaginati
     const { limit,page,sortBy,orderBy,skip} = calculatePagination(options);
     const { searchTerm, specialties, ...filterData } = filters;
 
+   
+
     const andConditions: Prisma.DoctorWhereInput[] = [];
 
     if (searchTerm) {
@@ -26,6 +28,8 @@ const  getAllDoctorFromDB=async(filters: IDoctorFilterRequest,options: IPaginati
             })),
         });
     }
+
+    // doctor >  doctorSpecialties > specialties table
 
     if (specialties && specialties.length > 0) {
         // Corrected specialties condition
