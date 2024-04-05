@@ -10,7 +10,7 @@ import { patientSearchableFields } from './Patient.constant';
 
 
 
-const  GetAllPatientFromDB =async( params: IPatientFilterRequest,option: IPaginationOptions,)=>{
+const  GetAllPatientFromDB =async( params: IPatientFilterRequest,option: IPaginationOptions)=>{
 
     const {searchTerm,...filterData}=params
 

@@ -3,6 +3,8 @@ import catchAsync from "../../shared/catchAsync";
 import { ScheduleService } from "./Schedule.services";
 import sendRespone from "../../shared/sendRespone";
 import httpStatus from 'http-status-codes';
+import pick from "../../shared/pick";
+import { scheduleFilterableFields } from "./Schedule.constant";
 
 
 const CreateSchedule:RequestHandler=catchAsync(async(req,res)=>{
@@ -11,6 +13,18 @@ const CreateSchedule:RequestHandler=catchAsync(async(req,res)=>{
     sendRespone(res,{success:true,status:httpStatus.CREATED,message:"Schedule Successfully Created",data:result});
 });
 
+const GetAllSchedule:RequestHandler=catchAsync(async(req,res)=>{
+    const filter= pick(req.query,scheduleFilterableFields);
+    
+    const option=pick(req.query,['page','limit','sortBy','orderBy']);
+
+    const {email}=req.user;
+
+    const result=await ScheduleService.GetAllScheduleFromDb(filter,option,email);
+    sendRespone(res,{success:true,status:httpStatus.OK,message:"Get All Schedule Successfully",meta:result.meta,data:result.data});
+})
+
 export const ScheduleController={
-    CreateSchedule
+    CreateSchedule,
+    GetAllSchedule
 }
