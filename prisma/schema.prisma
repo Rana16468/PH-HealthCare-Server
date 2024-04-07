@@ -65,6 +65,9 @@ model Doctor {
   user User @relation(fields:[email],references: [email])  // one to one relation ships to User Table
   doctorSpecialties DoctorSpecialties[] // many to many Relation Ship into DoctorSpecialties
   doctor  DoctorSchedules[] // one to many relation Ship to DoctorScheduleTable
+  appointment Appointment[] // one to many relation ship into Appointment Table
+  prescription Prescription[] // one to many reation ship into Prescription Table
+  review  Review [] // one to many reation ship into review Table
 
   @@map("doctors")
 
@@ -85,6 +88,10 @@ model Patient {
   user User @relation(fields:[email],references: [email])  //  onet to one  relation ships user  table
   patientHealthData PatientHealthData?
   medicalRepor MedicalRepor[]
+  appointment Appointment[]  // one to many relation ship into Appointment Table
+  prescription Prescription[] // one to many relation ship into Prescription Table
+  review Review[] // one to many realtion ship into review Table
+  
 
 }
 
@@ -153,6 +160,7 @@ model Schedule {
  createdAt DateTime @default(now())
  updatedAt  DateTime @updatedAt
  doctorSchedules DoctorSchedules[] // one to many realtion ship Doctor Schedule Table
+ appointment Appointment? // one to one realtion ship into Appointment Table
  @@map("schedules")
 
 }
@@ -164,12 +172,87 @@ model DoctorSchedules {
   scheduleId String
   schedule Schedule @relation(fields: [scheduleId],references: [id]) // one to many relation ship into Schedule Table
   isBooked Boolean @default(false)
-  appointmentId String ?
+  appointmentId String ?  @unique
+  appointment Appointment? @relation(fields: [appointmentId],references: [id]) // one to many realtion ship into Appointment Table
   @@id([doctorId,scheduleId])
   @@map("doctor_schedules")
 }
 
+model Appointment {
 
+  id                String              @id @default(uuid())
+ patientId String
+ patient  Patient @relation(fields: [patientId],references: [id]) // one to many relation ship into Patient Table
+ 
+ doctorId String
+ doctor Doctor @relation(fields: [doctorId],references: [id]) // one to many relation ship into Doctor Table
+ 
+ scheduleId String @unique
+ schedule Schedule @relation(fields: [scheduleId],references: [id]) // one to one realtion ship into Schedule Table
+
+videoCallingId String
+status AppointmentStatus @default(SCHEDULED)
+paymentStatus PaymentStatus @default(UNPAID)
+ doctorSchedules  DoctorSchedules? // one to many realtion ship into Doctor Schedule Table
+ payment Payment? // one to one realtion into payment Table
+ prescription Prescription? // one to one realtion into Prescription Table
+ review Review? // one to one realtion into Review Table
+createdAt DateTime @default(now())
+ updatedAt  DateTime @updatedAt
+ @@map("appointments")
+}
+
+model Payment {
+id                String              @id @default(uuid())
+appointmentId String @unique
+appointment Appointment @relation(fields: [appointmentId],references: [id]) // one to one realtion into Appointment Table
+amount Float
+transactionId String
+status AppointmentStatus @default(COMPLETED)
+paymentStatus  PaymentStatus @default(UNPAID)
+paymentGatewayData Json?
+createdAt DateTime @default(now())
+updatedAt  DateTime @updatedAt
+@@map("payments")
+}
+
+model Prescription {
+
+id                String              @id @default(uuid())
+appointmentId String @unique
+appointment Appointment @relation(fields: [appointmentId],references: [id]) // one to one realtion with Appointment Table 
+ 
+doctorId String
+doctor Doctor @relation(fields: [doctorId],references: [id]) // one to many reation ship into Doctor Table
+
+patientId String
+patient Patient @relation(fields: [patientId],references: [id]) // one to many relation ship into Patient Table
+
+
+instructions String
+followUpDate DateTime?
+createdAt DateTime @default(now())
+updatedAt  DateTime @updatedAt
+@@map("prescriptions ")
+}
+
+model Review {
+id                String              @id @default(uuid())
+patientId String
+patient Patient @relation(fields: [patientId],references: [id]) // one to many realtion ship into Patient Table
+
+doctorId String
+doctor Doctor @relation(fields: [doctorId],references: [id])  // one to many reation ship into Doctorn Table
+
+appointmentId String @unique
+appointment Appointment @relation(fields: [appointmentId],references: [id]) // one to one realtion into Appointment Table
+
+rating Float
+comment String
+createdAt DateTime @default(now())
+updatedAt  DateTime @updatedAt
+@@map("reviews ")
+}
 
 enum UserRole {
   SUPER_ADMIN
@@ -207,5 +290,16 @@ enum MaritalStatus {
 
   MARRIED
 UNMARRIED
+}
+enum AppointmentStatus {
+
+SCHEDULED
+INPROGRESS
+COMPLETED
+CANCELED
+}
+enum PaymentStatus {
+  PAID
+UNPAID
 }
 
