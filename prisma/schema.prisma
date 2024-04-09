@@ -207,7 +207,7 @@ id                String              @id @default(uuid())
 appointmentId String @unique
 appointment Appointment @relation(fields: [appointmentId],references: [id]) // one to one realtion into Appointment Table
 amount Float
-transactionId String
+transactionId String @unique
 status AppointmentStatus @default(COMPLETED)
 paymentStatus  PaymentStatus @default(UNPAID)
 paymentGatewayData Json?
