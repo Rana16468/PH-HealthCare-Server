@@ -26,7 +26,20 @@ const GetMyAppointment:RequestHandler=catchAsync(async(req,res)=>{
 
 });
 
+const changeAppointmentStatus:RequestHandler=catchAsync(async(req,res)=>{
+
+    const {id}=req.params;
+    const {status}=req.body;
+
+    const {role,email}=req.user;
+
+    const result=await AppointmentService.changeAppointmentStatusFromDb(id,status,{role,email});
+    sendRespone(res,{success:true,status:httpStatus.OK,message:"Chnage Appoint Status Successfully",data:result});
+
+})
+
 export const AppointmentController={
     createAppointment,
-    GetMyAppointment
+    GetMyAppointment,
+    changeAppointmentStatus
 }

@@ -9,6 +9,8 @@ import { ScheduleRoutes } from '../modules/Schedule/Schedule.routes';
 import { DoctorScheduleRouter } from '../modules/DoctorSchedule/DoctorSchedule.routes';
 import { AppointmentRouter } from '../modules/Appointment/Appointment.routes';
 import { PaymentRouters } from '../modules/Payment/Payment.routes';
+import { PrescriptionRouter } from '../modules/Presecription/Prescription.routes';
+import { ReviewRouter } from '../modules/Review/review.routes';
 
 
 const router=express.Router();
@@ -24,7 +26,9 @@ const moduleRoutes=[
     {path:"/schedule",route:ScheduleRoutes},
     {path:"/doctor-schedule",route:DoctorScheduleRouter},
     {path:"/appointment",route:AppointmentRouter},
-    {path:"/payment",route:PaymentRouters}
+    {path:"/payment",route:PaymentRouters},
+    {path:"/prescription",route:PrescriptionRouter},
+    {path:"/review",route:ReviewRouter}
 
     
 ]

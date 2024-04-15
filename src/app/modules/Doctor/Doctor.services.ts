@@ -69,7 +69,7 @@ const  getAllDoctorFromDB=async(filters: IDoctorFilterRequest,options: IPaginati
         take: limit,
         orderBy: options.sortBy && options.orderBy
             ? { [options.sortBy]: options.orderBy }
-            : { createdAt: 'desc' },
+            : { averageRating: 'desc' },
         include: {
             doctorSpecialties: {
                 include: {
