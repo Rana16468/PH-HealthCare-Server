@@ -5,6 +5,16 @@ import calculatePagination from '../../helper/paginationHelper';
 import { IPaginationOptions } from '../../Interfaces/pagination';
 import { IFilterRequest } from './Schedule.interface';
 
+
+
+const convertDateTime=async(data:Date)=>{
+
+  const offset=data.getTimezoneOffset() * 60000;
+  return new Date(data.getTime()+offset);
+
+
+}
+
 const CreateScheduleIntoDb=async(payload:{startDate:string,endDate:string,startTime:string,endTime:string}):Promise<Schedule[]>=>{
 
  //https://date-fns.org/v3.6.0/docs/Getting-Started
@@ -40,9 +50,14 @@ const CreateScheduleIntoDb=async(payload:{startDate:string,endDate:string,startT
          
         while(startDateTime<endDateTime)
         {
+
+
+          const s=await convertDateTime(startDateTime);
+          const a=await convertDateTime(addMinutes(startDateTime,intervalTime));
+
           const scheduleData={
-            startDateTime:startDateTime,
-            endDateTime : addMinutes(startDateTime,intervalTime)
+            startDateTime:s,
+            endDateTime : a
           }
 
           // duplicate scheduling checking 
@@ -169,7 +184,27 @@ const GetAllScheduleFromDb=async( params: IFilterRequest,option: IPaginationOpti
       };
 }
 
+const GetByIdFromDB = async (id: string): Promise<Schedule | null> => {
+  const result = await prisma.schedule.findUnique({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
+const GetDeleteFromDB = async (id: string): Promise<Schedule> => {
+  const result = await prisma.schedule.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const ScheduleService={
     CreateScheduleIntoDb,
-    GetAllScheduleFromDb
+    GetAllScheduleFromDb,
+    GetByIdFromDB,
+    GetDeleteFromDB
 }

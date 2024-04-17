@@ -2,7 +2,7 @@
 
 import prisma from '../../shared/prisma';
 import { SSLService } from '../SSL/SSL.services';
-import { Request } from 'express';
+
 import { PaymentStatus } from '@prisma/client';
 
 const InitPaymentIntoSSL =async(appointmentId:string)=>{

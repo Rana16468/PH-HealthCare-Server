@@ -12,5 +12,17 @@ router.post('/',auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),validateRequest(Schedu
 router.get('/',auth(UserRole.DOCTOR,UserRole.SUPER_ADMIN,UserRole.ADMIN),ScheduleController.GetAllSchedule);
 // task  delete Schedule
 
+router.get(
+    '/',
+    auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),
+    ScheduleController.GetByIdSchedule
+  );
+  
+  router.delete(
+    '/:id',
+    auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),
+    ScheduleController.DeleteSchedule
+  );
+
 
 export const ScheduleRoutes=router;

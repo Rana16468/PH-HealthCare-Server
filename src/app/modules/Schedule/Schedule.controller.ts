@@ -22,9 +22,32 @@ const GetAllSchedule:RequestHandler=catchAsync(async(req,res)=>{
 
     const result=await ScheduleService.GetAllScheduleFromDb(filter,option,email);
     sendRespone(res,{success:true,status:httpStatus.OK,message:"Get All Schedule Successfully",meta:result.meta,data:result.data});
-})
+});
+const GetByIdSchedule:RequestHandler = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const result = await ScheduleService.GetByIdFromDB(id);
+   sendRespone(res, {
+    status: httpStatus.OK,
+      success: true,
+      message: 'Schedule retrieval successfully',
+      data: result,
+    });
+  });
+  
+  const DeleteSchedule:RequestHandler = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const result = await ScheduleService.GetDeleteFromDB(id);
+    sendRespone(res, {
+      status: httpStatus.OK,
+      success: true,
+      message: 'Schedule deleted successfully',
+      data: result,
+    });
+  });
 
 export const ScheduleController={
     CreateSchedule,
-    GetAllSchedule
+    GetAllSchedule,
+    GetByIdSchedule,
+    DeleteSchedule
 }

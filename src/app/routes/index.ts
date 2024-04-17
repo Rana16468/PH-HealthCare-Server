@@ -11,6 +11,7 @@ import { AppointmentRouter } from '../modules/Appointment/Appointment.routes';
 import { PaymentRouters } from '../modules/Payment/Payment.routes';
 import { PrescriptionRouter } from '../modules/Presecription/Prescription.routes';
 import { ReviewRouter } from '../modules/Review/review.routes';
+import { MetaRoutes } from '../modules/Meta/Meta.routes';
 
 
 const router=express.Router();
@@ -28,7 +29,8 @@ const moduleRoutes=[
     {path:"/appointment",route:AppointmentRouter},
     {path:"/payment",route:PaymentRouters},
     {path:"/prescription",route:PrescriptionRouter},
-    {path:"/review",route:ReviewRouter}
+    {path:"/review",route:ReviewRouter},
+    {path:"/meta",route:MetaRoutes}
 
     
 ]
