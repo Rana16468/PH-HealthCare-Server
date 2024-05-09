@@ -83,6 +83,7 @@ const  getAllDoctorFromDB=async(filters: IDoctorFilterRequest,options: IPaginati
         where: whereConditions,
     });
 
+    
     return {
         meta: {
             total,

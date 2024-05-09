@@ -8,8 +8,9 @@ import { UserRole } from '@prisma/client';
 
 
 const router=express.Router();
+//auth(UserRole.DOCTOR,UserRole.SUPER_ADMIN,UserRole.ADMIN)
 
-router.get("/",auth(UserRole.DOCTOR,UserRole.SUPER_ADMIN,UserRole.ADMIN),SpecialtiesController.GetAllSpecialties)
+router.get("/",SpecialtiesController.GetAllSpecialties)
 
 router.post("/",
 auth(UserRole.DOCTOR,UserRole.ADMIN,UserRole.SUPER_ADMIN),

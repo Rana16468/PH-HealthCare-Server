@@ -79,7 +79,7 @@ const createPatientIntoDb=async(req:Request)=>{
 
     
 
-   // console.log(req.body);
+   //console.log("service",req.body);
     //console.log(req.file);
 
  const file=req.file as IFile

@@ -11,8 +11,8 @@ import { DoctorValidation } from './Doctor.Validation';
 const router=express.Router();
 
 // get all doctor router
-
-router.get('/',auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),DoctorController.getAllDoctor);
+//auth(UserRole.ADMIN,UserRole.SUPER_ADMIN)
+router.get('/',DoctorController.getAllDoctor);
 
 // get specific id
 

@@ -22,16 +22,20 @@ router.post('/create-admin',auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),upload.sin
 router.post('/create-doctor',auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),upload.single('file'),(req:Request,res:Response,next:NextFunction)=>{
       
     
-    req.body=JSON.parse(req.body.doctor)
+    req.body=JSON.parse(req.body.doctor);
+    console.log(req.body);
     next();
 },validateRequest(userValidation.createDoctorValidation),UserController.createDoctor);
 
 
 router.post('/create-patient',upload.single('file'),(req:Request,res:Response,next:NextFunction)=>{
-      
     
-    req.body=JSON.parse(req.body.patient)
-    next();
+      
+   
+    req.body=JSON.parse(req.body.patient);
+   next();
+   
+  
 },validateRequest(userValidation.createPatientValidation),UserController.createPatient);
 
 
