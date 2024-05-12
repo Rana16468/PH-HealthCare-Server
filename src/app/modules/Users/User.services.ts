@@ -327,6 +327,7 @@ const updateMyProfileIntoDb=async(user:any,req:Request,)=>{
       
     }
     else{
+      
         updateProfile=await prisma.admin.update({
           where:{
               email:userInfo.email

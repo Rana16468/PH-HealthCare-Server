@@ -9,7 +9,7 @@ import corn from 'node-cron';
 
 const app:Application=express();
 
-app.use(cors());
+app.use(cors({origin:"http://localhost:3000",credentials:true}));
 //https://www.npmjs.com/package/cookie-parser
 app.use(cookieParser())
 // parser
